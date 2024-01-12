@@ -7,11 +7,14 @@ import NotificationPage from "../../pages/notification-page/notification-page";
 import OpenCases from "../../pages/openCases/openCases";
 import Home from "../../pages/Home/home";
 import CaseModal from "../../components/caseModal/caseModal";
+import UpiForm from "../../components/forms/upiForm/upiForm";
+import SmsForm from "../../components/forms/sms/smsForm";
+import FraudDetection from "../../pages/FraudDetection/fraudDetection";
 
 const Default = () => {
   return (
     <Routes>
-      <Route index element={<Home/>} />
+      <Route index element={<FraudDetection/>} />
       <Route path="/adminlogin" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard/notifications" element={<NotificationPage />} />
