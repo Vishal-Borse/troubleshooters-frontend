@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: row;
 }
-.profile {
+.profile-acc{
   width: 250px;
   height: 150px;
   border-radius: 8px;
@@ -31,5 +31,5 @@
 }
 .transactions {
   overflow-y: scroll;
-  height: 300px;
+  height: 285px;
 }

@@ -14,7 +14,7 @@ import FraudDetection from "../../pages/FraudDetection/fraudDetection";
 const Default = () => {
   return (
     <Routes>
-      <Route index element={<FraudDetection/>} />
+      <Route index element={<Home />} />
       <Route path="/adminlogin" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard/notifications" element={<NotificationPage />} />

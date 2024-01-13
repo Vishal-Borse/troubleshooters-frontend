@@ -19,3 +19,7 @@
 .logout {
   align-items: center;
 }
+.active{
+  background-color:rgb(124 58 237);
+  color:white
+}

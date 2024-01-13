@@ -15,20 +15,20 @@ const Account = () => {
   return (
     <>
       <div className="main-div">
-        <div>
-          <Sidebar className="w-96" />
+        <div className='w-1/6'>
+          <Sidebar className="" />
         </div>
-        <div className="profile-main px-6 py-2 my-4 mx-5 mb-8 ml-8">
+        <div className="profile-main px-6 py-2 my-4 mx-5 mb-14 ml-8">
           <div>
             <h1 className="text-xl font-semibold mx-6 mt-3 mb-5 bg-indigo-600 text-white px-3 py-1 rounded-lg text-center">
               Account Details
             </h1>
           </div>
           <div className="profile-div mx-5 my-3 px-3 py-2">
-            <div className="profile-img rounded-lg p-2">
+            <div className="profile-img-acc rounded-lg p-2">
               {" "}
               <img
-                className="profile"
+                className="profile-acc"
                 src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Your Company"
               />
@@ -42,7 +42,7 @@ const Account = () => {
               </p>
             </div>
           </div>
-          <div className="mx-6 my-0">
+          <div className="mx-6 my-0 overflow-y-scroll h-96 pt-5">
             <h1 className="border border-indigo-600 rounded-md py-2 px-3 mb-1">
               <strong>Account Number : </strong>12458693254
             </h1>
@@ -83,7 +83,7 @@ const Account = () => {
           </div>
           <div className="transactions-div px-10 py-5 m-5 mb-8">
             <div>
-              <h1 className="text-2xl font-bold mb-5 text-indigo-600">
+              <h1 className="text-2xl font-bold mb-1 text-indigo-600">
                 Transaction History
               </h1>
             </div>

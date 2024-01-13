@@ -52,7 +52,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="main-div flex justify-between gap-1">
-        <div className='w-96'>
+        <div className='w-1/6'>
           <Sidebar />
         </div>
         <div className="middle-div">
