@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 import "./dashboard.css";
 import { CiSearch } from "react-icons/ci";
 import { CiBank } from "react-icons/ci";
@@ -7,14 +9,42 @@ import { MdOutlineSecurity } from "react-icons/md";
 import Sidebar from "../../components/sidebar/sidebar";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import * as React from "react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
+function toCamelCase(str) {
+  return str.replace(/\s(.)/g, function(match) {
+    return match.toUpperCase();
+  }).replace(/\s/g, '').replace(/^(.)/, function(match) {
+    return match.toLowerCase();
+  });
+}
+
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    // Fetch notifications from the API endpoint
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/notifications/all");
+        const data = await response.json();
+        setNotifications(data);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+    fetchNotifications();
+  }, []);
+  
+
+  
+  const handleAccountClick2 = () => {
+    navigate("/dashboard/notifications");
+  };
 
   const handleAccountClick = () => {
     navigate("/dashboard/account/:id");
@@ -159,109 +189,27 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="right-div p-5 pl-3">
-          <div className="noti p-5">
-            <div>
-              <h1 className="text-3xl font-bold mb-5 text-indigo-600">
+        <div className="noti p-5">
+          <h1 className="text-3xl font-bold mb-5 text-indigo-600">
                 Notifications
               </h1>
-            </div>
+            <div>
             <div className="noti-list">
-              <div className="flex gap-3 items-center border-solid border rounded my-2 ">
-                <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-                  <IoIosNotificationsOutline />
-                </div>
-                <div className="">
-                  <h2 className="text-gray-600 py-1">
-                    {" "}
-                    Unusual activity detected: A transaction of $X has been made
-                    in Jaipur, Rajasthan.
-                  </h2>
-                </div>
-              </div>
-              <div className="flex gap-3 items-center border-solid border rounded my-2">
-                <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-                  <IoIosNotificationsOutline />
-                </div>
-                <div className="">
-                  <h2 className="text-gray-600 py-1">
-                    {" "}
-                    Unusual activity detected: A transaction of $X has been made
-                    in Jaipur, Rajasthan.
-                  </h2>
-                </div>
-              </div>
-              <div className="flex gap-3 items-center border-solid border rounded my-2">
-                <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-                  <IoIosNotificationsOutline />
-                </div>
-                <div className="">
-                  <h2 className="text-gray-600 py-1">
-                    {" "}
-                    Unusual activity detected: A transaction of $X has been made
-                    in Jaipur, Rajasthan.
-                  </h2>
-                </div>
-              </div>
-              <div className="flex gap-3 items-center border-solid border rounded my-2">
-                <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-                  <IoIosNotificationsOutline />
-                </div>
-                <div className="">
-                  <h2 className="text-gray-600 py-1">
-                    {" "}
-                    Unusual activity detected: A transaction of $X has been made
-                    in Jaipur, Rajasthan.
-                  </h2>
-                </div>
-              </div>
-              <div className="flex gap-3 items-center border-solid border rounded my-2">
-                <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-                  <IoIosNotificationsOutline />
-                </div>
-                <div className="">
-                  <h2 className="text-gray-600 py-1">
-                    {" "}
-                    Unusual activity detected: A transaction of $X has been made
-                    in Jaipur, Rajasthan.
-                  </h2>
-                </div>
-              </div>
-              <div className="flex gap-3 items-center border-solid border rounded my-2">
-                <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-                  <IoIosNotificationsOutline />
-                </div>
-                <div className="">
-                  <h2 className="text-gray-600 py-1">
-                    {" "}
-                    Unusual activity detected: A transaction of $X has been made
-                    in Jaipur, Rajasthan.
-                  </h2>
-                </div>
-              </div>
-              <div className="flex gap-3 items-center border-solid border rounded my-2">
-                <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-                  <IoIosNotificationsOutline />
-                </div>
-                <div className="">
-                  <h2 className="text-gray-600 py-1">
-                    {" "}
-                    Unusual activity detected: A transaction of $X has been made
-                    in Jaipur, Rajasthan.
-                  </h2>
-                </div>
-              </div>
-              <div className="flex gap-3 items-center border-solid border rounded my-2">
-                <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-                  <IoIosNotificationsOutline />
-                </div>
-                <div className="">
-                  <h2 className="text-gray-600 py-1">
-                    {" "}
-                    Unusual activity detected: A transaction of $X has been made
-                    in Jaipur, Rajasthan.
-                  </h2>
-                </div>
-              </div>
+        {notifications.map((notification) => (
+          <div key={notification.notification_id} onClick={handleAccountClick2} className="flex gap-3 items-center border-solid border rounded my-2" >
+            <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
+              <IoIosNotificationsOutline />
+            </div>
+            <div className="">
+            <h2 className="text-gray-600 font-bold py-1">{notification.message}</h2>
+            
+              {/* <p className="text-gray-400">{new Date(notification.created_at).toLocaleString()}</p> */}
+              <p className="text-gray-400">{new Date(notification.created_at).toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short', hour12: true })}</p>
+
+            </div>
+          </div>
+        ))}
+      </div>
             </div>
           </div>
           <div className="lower mt-6  flex items-center justify-between gap-5">
