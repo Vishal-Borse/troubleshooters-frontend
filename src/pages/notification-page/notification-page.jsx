@@ -261,9 +261,14 @@ const NotificationPage = () => {
                 </div>
                 <div className="ml-2 w-full">
                   <h2 className="font-bold text-xl mb-3">{notification.message}</h2>
-                  <h2 className="px-4 py-0.5 text-white rounded-lg bg-indigo-600 text-sm">
+                  <div className='flex justify-between ' >
+                  <h2 className="px-4 py-0.5 text-white rounded-lg bg-indigo-600 text-sm w-32 text-center">
                     {new Date(notification.created_at).toLocaleDateString()}
                   </h2>
+                  <button className="px-4 py-0.5 text-white rounded-lg bg-indigo-600 text-sm w-32 text-center" >
+                    Check Model
+                  </button>
+                    </div>
                   <p>
                     {notification.type === 'Fraud Transaction'
                       ? `Transaction ID: ${notification.fraud_transaction_id}`
