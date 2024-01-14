@@ -5,7 +5,8 @@ import Chart from "../../components/chart/chart";
 import { BsUpload } from "react-icons/bs";
 import { BsDownload } from "react-icons/bs";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 import TransactionModal from "../../components/transactionModal/transactionModal";
 
 function formatDate(dateString) {
@@ -18,15 +19,19 @@ const Account = () => {
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
   const [userData, setUserData] = useState(null);
   const [transactions, setTransactions] = useState([]);
-  const { userId } = useParams();
+  const [transactionDetails, setTransactionDetails] = useState(null);
+  
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  console.log(id);
   useEffect(() => {
-    const fetchUserData = async (userId) => {
+    const fetchUserData = async (id) => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/users/1`);
+        const response = await fetch(`http://127.0.0.1:5000/api/users/${id}`);
         const data = await response.json();
         setUserData(data);
-
-        // Use the updated state variable in the second API call
+        console.log(data);
         const transactionResponse = await fetch(
           `http://127.0.0.1:5000/api/transactions/sender/${data.account_number}`
         );
@@ -37,11 +42,13 @@ const Account = () => {
       }
     };
 
-    fetchUserData(userId); // Pass the userId obtained from useParams
-  }, [userId]); // Include userId in the dependency array to react to changes
+    fetchUserData(id); // Pass the userId obtained from useParams
+  }, [id]); // Include userId in the dependency array to react to changes
 
-  const handleToggleTransactionModal = () => {
-    setIsTransactionModalOpen(!isTransactionModalOpen);
+  console.log(userData);
+  const handleToggleTransactionModal = (transaction) => {
+    navigate(`/transaction/${transaction.receiver_account}`);
+    setTransactionDetails(transaction);
   };
   return (
     <>
@@ -151,7 +158,7 @@ const Account = () => {
               {transactions.map((transaction) => (
                 <div
                   key={transaction.transactionid}
-                  onClick={handleToggleTransactionModal}
+                  onClick={() => handleToggleTransactionModal(transaction.receiver_account)}
                   className="flex items-center border-solid border rounded px-5 py-2 my-2"
                 >
                   <div className="text-lg font-bold bg-indigo-600 text-white rounded-full p-3">
@@ -182,6 +189,7 @@ const Account = () => {
               {isTransactionModalOpen ? (
                 <TransactionModal
                   closeCallback={handleToggleTransactionModal}
+                  transactionDetails={transactionDetails}
                 />
               ) : null}
             </div>
