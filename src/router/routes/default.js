@@ -11,6 +11,7 @@ import UpiForm from "../../components/forms/upiForm/upiForm";
 import SmsForm from "../../components/forms/sms/smsForm";
 import FraudDetection from "../../pages/FraudDetection/fraudDetection";
 
+const account_id = 1;
 const Default = () => {
   return (
     <Routes>
@@ -19,6 +20,8 @@ const Default = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard/notifications" element={<NotificationPage />} />
       <Route path="/dashboard/account/:id" element={<Account />} />
+      {/* <Route path={`/dashboard/account/${account_id}`} component={Account} /> */}
+
       <Route path="/dashboard/opencases" element={<OpenCases />} />
       {/* <Route path="/dashboard/logout" element={<Logout />} /> */}
     </Routes>

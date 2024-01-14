@@ -15,44 +15,59 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 function toCamelCase(str) {
-  return str.replace(/\s(.)/g, function(match) {
-    return match.toUpperCase();
-  }).replace(/\s/g, '').replace(/^(.)/, function(match) {
-    return match.toLowerCase();
-  });
+  return str
+    .replace(/\s(.)/g, function (match) {
+      return match.toUpperCase();
+    })
+    .replace(/\s/g, "")
+    .replace(/^(.)/, function (match) {
+      return match.toLowerCase();
+    });
 }
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [accounts, setAccounts] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/users");
+        const data = await response.json();
+        setAccounts(data);
+      } catch (error) {
+        console.error("Error fetching accounts:", error);
+      }
+    };
     // Fetch notifications from the API endpoint
     const fetchNotifications = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/notifications/all");
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/notifications/all"
+        );
         const data = await response.json();
         setNotifications(data);
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
     };
+    fetchAccounts();
     fetchNotifications();
   }, []);
-  
 
-  
-  const handleAccountClick2 = () => {
+  const handleAccountClick = (accountId) => {
+    navigate(`/dashboard/account/${accountId}`);
+  };
+
+  const handleNotificationClick = () => {
     navigate("/dashboard/notifications");
   };
 
-  const handleAccountClick = () => {
-    navigate("/dashboard/account/:id");
-  };
   return (
     <>
       <div className="main-div flex justify-between gap-1">
-        <div className='w-1/6'>
+        <div className='w-96'>
           <Sidebar />
         </div>
         <div className="middle-div">
@@ -74,7 +89,7 @@ const Dashboard = () => {
             <div className="accounts px-8 py-8">
               <div>
                 <h1 className="text-3xl font-bold mb-5 text-indigo-600">
-                  Accounts Listed
+                  Accounts 
                 </h1>
               </div>
               <div className="flex items-center">
@@ -100,116 +115,63 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="accounts-listed mt-8">
-                <div
-                  onClick={handleAccountClick}
-                  className="flex items-center border-solid border rounded px-5 py-3 my-2"
-                >
-                  <div className="text-3xl bg-indigo-600 text-white rounded-full p-1">
-                    <CiBank />
+                {accounts.map((account) => (
+                  <div
+                    key={account.customer_id}
+                    onClick={() => handleAccountClick(account.customer_id)}
+                    className="flex items-center border-solid border rounded px-5 py-3 my-2"
+                  >
+                    <div className="text-3xl bg-indigo-600 text-white rounded-full p-1">
+                      <CiBank />
+                    </div>
+                    <div className="ml-5">
+                      <h2 className="font-bold text-lg">{`${account.first_name} ${account.last_name}`}</h2>
+                      <h2 className="text-gray-500">
+                        Account Number: {account.account_number}
+                      </h2>
+                    </div>
                   </div>
-                  <div className="ml-5">
-                    <h2 className="font-bold text-lg">Vishal Borse</h2>
-                    <h2 className="text-gray-500">
-                      Account Number : 12458693254
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  onClick={handleAccountClick}
-                  className="flex items-center border-solid border rounded px-5 py-3 my-2"
-                >
-                  <div className="text-3xl bg-indigo-600 text-white rounded-full p-1">
-                    <CiBank />
-                  </div>
-                  <div className="ml-5">
-                    <h2 className="font-bold text-lg">Vishal Borse</h2>
-                    <h2 className="text-gray-500">
-                      Account Number : 12458693254
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  onClick={handleAccountClick}
-                  className="flex items-center border-solid border rounded px-5 py-3 my-2"
-                >
-                  <div className="text-3xl bg-indigo-600 text-white rounded-full p-1">
-                    <CiBank />
-                  </div>
-                  <div className="ml-5">
-                    <h2 className="font-bold text-lg">Vishal Borse</h2>
-                    <h2 className="text-gray-500">
-                      Account Number : 12458693254
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  onClick={handleAccountClick}
-                  className="flex items-center border-solid border rounded px-5 py-3 my-2"
-                >
-                  <div className="text-3xl bg-indigo-600 text-white rounded-full p-1">
-                    <CiBank />
-                  </div>
-                  <div className="ml-5">
-                    <h2 className="font-bold text-lg">Vishal Borse</h2>
-                    <h2 className="text-gray-500">
-                      Account Number : 12458693254
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  onClick={handleAccountClick}
-                  className="flex items-center border-solid border rounded px-5 py-3 my-2"
-                >
-                  <div className="text-3xl bg-indigo-600 text-white rounded-full p-1">
-                    <CiBank />
-                  </div>
-                  <div className="ml-5">
-                    <h2 className="font-bold text-lg">Vishal Borse</h2>
-                    <h2 className="text-gray-500">
-                      Account Number : 12458693254
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  onClick={handleAccountClick}
-                  className="flex items-center border-solid border rounded px-5 py-3 my-2"
-                >
-                  <div className="text-3xl bg-indigo-600 text-white rounded-full p-1">
-                    <CiBank />
-                  </div>
-                  <div className="ml-5">
-                    <h2 className="font-bold text-lg">Vishal Borse</h2>
-                    <h2 className="text-gray-500">
-                      Account Number : 12458693254
-                    </h2>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
         <div className="right-div p-5 pl-3">
-        <div className="noti p-5">
-          <h1 className="text-3xl font-bold mb-5 text-indigo-600">
-                Notifications
-              </h1>
+          <div className="noti p-5">
+            <h1 className="text-3xl font-bold mb-5 text-indigo-600">
+              Notifications
+            </h1>
             <div>
-            <div className="noti-list">
-        {notifications.map((notification) => (
-          <div key={notification.notification_id} onClick={handleAccountClick2} className="flex gap-3 items-center border-solid border rounded my-2" >
-            <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
-              <IoIosNotificationsOutline />
-            </div>
-            <div className="">
-            <h2 className="text-gray-600 font-bold py-1">{notification.message}</h2>
-            
-              {/* <p className="text-gray-400">{new Date(notification.created_at).toLocaleString()}</p> */}
-              <p className="text-gray-400">{new Date(notification.created_at).toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short', hour12: true })}</p>
+              <div className="noti-list">
+                {notifications.map((notification) => (
+                  <div
+                    key={notification.notification_id}
+                    onClick={handleNotificationClick}
+                    className="flex gap-3 items-center border-solid border rounded my-2"
+                  >
+                    <div className=" flex border border-indigo-600 items-centre py-1 px-2 text-2xl rounded-full ml-2">
+                      <IoIosNotificationsOutline />
+                    </div>
+                    <div className="">
+                      <h2 className="text-gray-600 font-bold py-1">
+                        {notification.message}
+                      </h2>
 
-            </div>
-          </div>
-        ))}
-      </div>
+                      {/* <p className="text-gray-400">{new Date(notification.created_at).toLocaleString()}</p> */}
+                      <p className="text-gray-400">
+                        {new Date(notification.created_at).toLocaleString(
+                          "en-US",
+                          {
+                            dateStyle: "short",
+                            timeStyle: "short",
+                            hour12: true,
+                          }
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div className="lower mt-6  flex items-center justify-between gap-5">
