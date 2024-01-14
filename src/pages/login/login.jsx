@@ -1,9 +1,36 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 const Login = () => {
   const navigate = useNavigate();
-  const loginAdmin = () => {
-    navigate("/dashboard");
+  const [credentials, setCredentials] = useState({ username: "", password: "" });
+
+  const loginAdmin = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch("http://localhost:5000/api/admin/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: credentials.username,
+        password: credentials.password,
+      }),
+    });
+
+    const json = await response.json();
+    console.log(json);
+    if (json.success) {
+      navigate("/dashboard");
+    } else {
+      alert("Invalid Credentials");
+    }
   };
+
+  const onChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 mt-24">
@@ -22,19 +49,21 @@ const Login = () => {
           <form className="space-y-6" action="#" method="POST">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-base font-medium leading-6 text-gray-900"
               >
-                Email address
+                username address
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="username"
+                  name="username"
+                  type="username"
+                  autoComplete="username"
                   required
                   className="block w-full rounded-md border border-indigo-600  py-2 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 pl-2.5"
+                  value={credentials.username}
+                  onChange={onChange}
                 />
               </div>
             </div>
@@ -56,6 +85,8 @@ const Login = () => {
                   autoComplete="current-password"
                   required
                   className="border border-indigo-600 block w-full rounded-md py-2 text-gray-900 placeholder:text-gray-400  sm:text-sm sm:leading-6 pl-2.5"
+                  value={credentials.password}
+                  onChange={onChange}
                 />
               </div>
             </div>

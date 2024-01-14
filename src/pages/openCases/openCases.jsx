@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/sidebar";
 import { IoCloseOutline } from "react-icons/io5";
 import { BsPencilSquare } from "react-icons/bs";
@@ -8,10 +8,33 @@ import { CiSearch } from "react-icons/ci";
 import "./openCases.css";
 const OpenCases = () => {
   const [isCaseModalOpen, setIsCaseModalOpen] = useState(false);
+  const [casesData, setCasesData] = useState([]);
+  const [receiverAccountDetails, setReceiverAccountDetails] = useState(null);
+  const [senderAccountDetails, setSenderAccountDetails] = useState(null);
+  const [isReceiverDetails, setReceiverDetails] = useState(false);
+  const [isSenderDetails, setSenderDetails] = useState(false);
 
-  const handleToggleCaseModal = () => {
+  const handleToggleCaseModal = (caseDetails) => {
     setIsCaseModalOpen(!isCaseModalOpen);
+    setReceiverDetails(false);
+    setSenderDetails(false);
+    setReceiverAccountDetails(caseDetails.receiver_account);
+    setSenderAccountDetails(caseDetails.sender_account);
   };
+  useEffect(() => {
+    // Fetch data from the API
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/cases/all");
+        const data = await response.json();
+        setCasesData(data.cases);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       <div className="flex item-centre">
@@ -20,9 +43,7 @@ const OpenCases = () => {
         </div>
         <div className="open-cases m-6 mb-8 py-8 pb-5 px-10">
           <div>
-            <h1 className="text-4xl font-bold mb-5 text-indigo-600">
-              Open Cases
-            </h1>
+            <h1 className="text-4xl font-bold mb-5 text-indigo-600">Cases</h1>
           </div>
           <div className="flex items-center mb-10">
             <input
@@ -47,291 +68,68 @@ const OpenCases = () => {
             </div>
           </div>
           <div className="w-full grid grid-cols-2 gap-5 lists ">
-            <div
-              onClick={handleToggleCaseModal}
-              className="h-48 w-full flex items-center border-solid border rounded-lg px-5 py-2 my-3 "
-            >
-              <div className="pb-28 mr-3 p-1">
-                <GoLaw className="text-4xl bg-indigo-600 text-white border rounded-full p-2 mr-2" />
-              </div>
-              <div className="ml-2 w-full">
-                <div className="flex mt-2 items-center">
-                  <h2 className="font-bold text-xl mb-2 "> 3594HD3294JDJ243</h2>
-                  <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
-                    Open
+            {casesData.map((caseItem) => (
+              <div
+                key={caseItem.case_id}
+                onClick={() =>
+                  handleToggleCaseModal(caseItem.transaction_details)
+                }
+                className="h-48 w-full flex items-center border-solid border rounded-lg px-5 py-2 my-3 "
+              >
+                <div className="pb-28 mr-3 p-1">
+                  <GoLaw className="text-4xl bg-indigo-600 text-white border rounded-full p-2 mr-2" />
+                </div>
+                <div className="ml-2 w-full">
+                  <div className="flex mt-2 items-center">
+                    <h2 className="font-bold text-xl mb-2 ">
+                    <strong>Case ID : </strong>
+                      {caseItem.case_id}
+                    </h2>
+                    <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
+
+                      {caseItem.status}
+                    </p>
+                  </div>
+                  <p>
+                    <strong>Victim Name : </strong>
+                    {
+                      caseItem.transaction_details.receiver_account.first_name
+                    }{" "}
+                    {caseItem.transaction_details.receiver_account.last_name}
                   </p>
-                </div>
-                <p>
-                  <strong>Victim Name : </strong>Vikas Kumar
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Transaction ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <h2 className="mt-2 text-sm font-semibold text-gray-600">
-                  12 March 2023
-                </h2>
-              </div>
-              <div className="flex items-center justify-center pb-28 ">
-                <div className="p-5">
-                  <BsPencilSquare className="bg-indigo-600 text-2xl rounded text-white p-1" />
-                </div>
-
-                <div>
-                  <IoCloseOutline className="text-indigo-600 text-2xl mr-3" />
-                </div>
-              </div>
-            </div>
-            <div
-              onClick={handleToggleCaseModal}
-              className="h-48 w-full flex items-center border-solid border rounded-lg px-5 py-2 my-3 "
-            >
-              <div className="pb-28 mr-3 p-1">
-                <GoLaw className="text-4xl bg-indigo-600 text-white border rounded-full p-2 mr-2" />
-              </div>
-              <div className="ml-2 w-full">
-                <div className="flex mt-2 items-center">
-                  <h2 className="font-bold text-xl mb-2 "> 3594HD3294JDJ243</h2>
-                  <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
-                    Open
+                  <p>
+                    <strong>Customer ID : </strong>
+                    {caseItem.transaction_details.receiver_account.customer_id}
                   </p>
-                </div>
-                <p>
-                  <strong>Victim Name : </strong>Vikas Kumar
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Transaction ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <h2 className="mt-2 text-sm font-semibold text-gray-600">
-                  12 March 2023
-                </h2>
-              </div>
-              <div className="flex items-center justify-center pb-28 ">
-                <div className="p-5">
-                  <BsPencilSquare className="bg-indigo-600 text-2xl rounded text-white p-1" />
-                </div>
-
-                <div>
-                  <IoCloseOutline className="text-indigo-600 text-2xl mr-3" />
-                </div>
-              </div>
-            </div>
-            <div
-              onClick={handleToggleCaseModal}
-              className="h-48 w-full flex items-center border-solid border rounded-lg px-5 py-2 my-3 "
-            >
-              <div className="pb-28 mr-3 p-1">
-                <GoLaw className="text-4xl bg-indigo-600 text-white border rounded-full p-2 mr-2" />
-              </div>
-              <div className="ml-2 w-full">
-                <div className="flex mt-2 items-center">
-                  <h2 className="font-bold text-xl mb-2 "> 3594HD3294JDJ243</h2>
-                  <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
-                    Open
+                  <p>
+                    <strong>Transaction ID : </strong>
+                    {caseItem.transaction_details.transaction_id}
                   </p>
-                </div>
-                <p>
-                  <strong>Victim Name : </strong>Vikas Kumar
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Transaction ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <h2 className="mt-2 text-sm font-semibold text-gray-600">
-                  12 March 2023
-                </h2>
-              </div>
-              <div className="flex items-center justify-center pb-28 ">
-                <div className="p-5">
-                  <BsPencilSquare className="bg-indigo-600 text-2xl rounded text-white p-1" />
-                </div>
 
-                <div>
-                  <IoCloseOutline className="text-indigo-600 text-2xl mr-3" />
+                  <h2 className="mt-2 text-sm font-semibold text-gray-600">
+                    {new Date(
+                      caseItem.transaction_details.transaction_date
+                    ).toLocaleDateString()}
+                  </h2>
+                </div>
+                <div className="flex items-center justify-center pb-28 ">
+                  <div className="p-5">
+                    <BsPencilSquare className="bg-indigo-600 text-2xl rounded text-white p-1" />
+                  </div>
+                  <div>
+                    <IoCloseOutline className="text-indigo-600 text-2xl mr-3" />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              onClick={handleToggleCaseModal}
-              className="h-48 w-full flex items-center border-solid border rounded-lg px-5 py-2 my-3 "
-            >
-              <div className="pb-28 mr-3 p-1">
-                <GoLaw className="text-4xl bg-indigo-600 text-white border rounded-full p-2 mr-2" />
-              </div>
-              <div className="ml-2 w-full">
-                <div className="flex mt-2 items-center">
-                  <h2 className="font-bold text-xl mb-2 "> 3594HD3294JDJ243</h2>
-                  <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
-                    Open
-                  </p>
-                </div>
-                <p>
-                  <strong>Victim Name : </strong>Vikas Kumar
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Transaction ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <h2 className="mt-2 text-sm font-semibold text-gray-600">
-                  12 March 2023
-                </h2>
-              </div>
-              <div className="flex items-center justify-center pb-28 ">
-                <div className="p-5">
-                  <BsPencilSquare className="bg-indigo-600 text-2xl rounded text-white p-1" />
-                </div>
-
-                <div>
-                  <IoCloseOutline className="text-indigo-600 text-2xl mr-3" />
-                </div>
-              </div>
-            </div>
-            <div
-              onClick={handleToggleCaseModal}
-              className="h-48 w-full flex items-center border-solid border rounded-lg px-5 py-2 my-3 "
-            >
-              <div className="pb-28 mr-3 p-1">
-                <GoLaw className="text-4xl bg-indigo-600 text-white border rounded-full p-2 mr-2" />
-              </div>
-              <div className="ml-2 w-full">
-                <div className="flex mt-2 items-center">
-                  <h2 className="font-bold text-xl mb-2 "> 3594HD3294JDJ243</h2>
-                  <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
-                    Open
-                  </p>
-                </div>
-                <p>
-                  <strong>Victim Name : </strong>Vikas Kumar
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Transaction ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <h2 className="mt-2 text-sm font-semibold text-gray-600">
-                  12 March 2023
-                </h2>
-              </div>
-              <div className="flex items-center justify-center pb-28 ">
-                <div className="p-5">
-                  <BsPencilSquare className="bg-indigo-600 text-2xl rounded text-white p-1" />
-                </div>
-
-                <div>
-                  <IoCloseOutline className="text-indigo-600 text-2xl mr-3" />
-                </div>
-              </div>
-            </div>
-            <div
-              onClick={handleToggleCaseModal}
-              className="h-48 w-full flex items-center border-solid border rounded-lg px-5 py-2 my-3 "
-            >
-              <div className="pb-28 mr-3 p-1">
-                <GoLaw className="text-4xl bg-indigo-600 text-white border rounded-full p-2 mr-2" />
-              </div>
-              <div className="ml-2 w-full">
-                <div className="flex mt-2 items-center">
-                  <h2 className="font-bold text-xl mb-2 "> 3594HD3294JDJ243</h2>
-                  <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
-                    Open
-                  </p>
-                </div>
-                <p>
-                  <strong>Victim Name : </strong>Vikas Kumar
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Transaction ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <h2 className="mt-2 text-sm font-semibold text-gray-600">
-                  12 March 2023
-                </h2>
-              </div>
-              <div className="flex items-center justify-center pb-28 ">
-                <div className="p-5">
-                  <BsPencilSquare className="bg-indigo-600 text-2xl rounded text-white p-1" />
-                </div>
-
-                <div>
-                  <IoCloseOutline className="text-indigo-600 text-2xl mr-3" />
-                </div>
-              </div>
-            </div>
-            <div
-              onClick={handleToggleCaseModal}
-              className="h-48 w-full flex items-center border-solid border rounded-lg px-5 py-2 my-3 "
-            >
-              <div className="pb-28 mr-3 p-1">
-                <GoLaw className="text-4xl bg-indigo-600 text-white border rounded-full p-2 mr-2" />
-              </div>
-              <div className="ml-2 w-full">
-                <div className="flex mt-2 items-center">
-                  <h2 className="font-bold text-xl mb-2 "> 3594HD3294JDJ243</h2>
-                  <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
-                    Open
-                  </p>
-                </div>
-                <p>
-                  <strong>Victim Name : </strong>Vikas Kumar
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Transaction ID : </strong>DH76HNDH349239
-                </p>
-                <p>
-                  <strong>Customer ID : </strong>DH76HNDH349239
-                </p>
-                <h2 className="mt-2 text-sm font-semibold text-gray-600">
-                  12 March 2023
-                </h2>
-              </div>
-              <div className="flex items-center justify-center pb-28 ">
-                <div className="p-5">
-                  <BsPencilSquare className="bg-indigo-600 text-2xl rounded text-white p-1" />
-                </div>
-
-                <div>
-                  <IoCloseOutline className="text-indigo-600 text-2xl mr-3" />
-                </div>
-              </div>
-            </div>
-
-            {isCaseModalOpen ? (
-              <CaseModal closeCallback={handleToggleCaseModal} />
-            ) : null}
+            ))}
           </div>
+          {isCaseModalOpen ? (
+            <CaseModal
+              closeCallback={handleToggleCaseModal}
+              receiverAccountDetails={receiverAccountDetails}
+              senderAccountDetails={senderAccountDetails}
+            />
+          ) : null}
         </div>
       </div>
     </>

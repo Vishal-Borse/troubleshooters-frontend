@@ -33,7 +33,7 @@ const Account = () => {
         setUserData(data);
         console.log(data);
         const transactionResponse = await fetch(
-          `http://127.0.0.1:5000/api/transactions/sender/${data.account_number}`
+          `http://127.0.0.1:5000/api/transactions/${data.account_number}`
         );
         const transactionData = await transactionResponse.json();
         setTransactions(transactionData);
@@ -47,7 +47,7 @@ const Account = () => {
 
   console.log(userData);
   const handleToggleTransactionModal = (transaction) => {
-    navigate(`/transaction/${transaction.receiver_account}`);
+   
     setTransactionDetails(transaction);
   };
   return (

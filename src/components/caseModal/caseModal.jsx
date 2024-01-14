@@ -2,7 +2,7 @@ import "./caseModal.css";
 import { useState } from "react";
 
 import { IoCloseOutline } from "react-icons/io5";
-const CaseModal = ({ closeCallback }) => {
+const CaseModal = ({ closeCallback,  receiverAccountDetails, senderAccountDetails  }) => {
   const [isReceiverDetails, setReceiverDetails] = useState(false);
   const [isSenderDetails, setSenderDetails] = useState(false);
 
