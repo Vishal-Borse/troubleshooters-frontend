@@ -14,12 +14,17 @@ const OpenCases = () => {
   const [isReceiverDetails, setReceiverDetails] = useState(false);
   const [isSenderDetails, setSenderDetails] = useState(false);
 
+
+  
   const handleToggleCaseModal = (caseDetails) => {
     setIsCaseModalOpen(!isCaseModalOpen);
     setReceiverDetails(false);
     setSenderDetails(false);
     setReceiverAccountDetails(caseDetails.receiver_account);
     setSenderAccountDetails(caseDetails.sender_account);
+  //   console.log("Receiver Account Details:", caseDetails.receiver_account);
+  // console.log("Sender Account Details:", caseDetails.sender_account);
+  
   };
   useEffect(() => {
     // Fetch data from the API

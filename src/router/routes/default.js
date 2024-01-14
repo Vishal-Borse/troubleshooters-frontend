@@ -16,7 +16,7 @@ const Default = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard/notifications" element={<NotificationPage />} />
       <Route path="/dashboard/account/:id" element={<Account />} />
-      <Route path="/dashboard/userpage/" element={<UserPage />} />
+      {/* <Route path="/dashboard/userpage/" element={<UserPage />} /> */}
       <Route path="/dashboard/opencases" element={<OpenCases />} />
     </Routes>
   );
