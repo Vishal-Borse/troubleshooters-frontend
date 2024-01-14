@@ -18,11 +18,17 @@ const Default = () => {
       <Route path="/adminlogin" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard/notifications" element={<NotificationPage />} />
-      <Route path="/dashboard/account/:id" element={<Account />} />
+      <Route path="/dashboard/account/:id" element={<AccountPage />} />
       <Route path="/dashboard/opencases" element={<OpenCases />} />
       {/* <Route path="/dashboard/logout" element={<Logout />} /> */}
     </Routes>
   );
+};
+const AccountPage = () => {
+  // Access the id parameter from the URL
+  const { id } = useParams();
+
+  return <Account id={id} />;
 };
 
 export default Default;
