@@ -13,7 +13,7 @@ const Home = () => {
           <Link to={"/adminlogin"} className="text-white bg-indigo-600 p-10 m-5">
             Admin Login
           </Link>
-          <Link to={"/"} className="text-white bg-indigo-600 p-10 m-5">
+          <Link to={"/userlogin"} className="text-white bg-indigo-600 p-10 m-5">
             User Login
           </Link>
         </div>

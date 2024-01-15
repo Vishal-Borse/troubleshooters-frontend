@@ -47,7 +47,7 @@ export default function RealTimeLineChart({ senderAccount }) {
       }
     };
 
-    const intervalId = setInterval(fetchData, 5000); 
+    const intervalId = setInterval(fetchData, 500000); 
 
     return () => clearInterval(intervalId); 
   }, [senderAccount]);

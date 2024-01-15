@@ -1,4 +1,32 @@
-const SmsForm = () => {
+import { useState } from "react";
+  const SmsForm = () => {
+  const [sms, setSms] = useState("");
+
+  const checkSms = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch("http://localhost:5000/sms_template/is_spam", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sms_template: sms,
+      }),
+    });
+
+    const json = await response.json();
+    console.log(json);
+    if (json.success) {
+      document.getElementById("verifiedMsg").innerText = `This sms is safe`;
+    } else {
+      document.getElementById("verifiedMsg").innerText = `This sms is not safe`;
+    }
+  };
+
+  const onChange = (e) => {
+    setSms(e.target.value);
+  };
   return (
     <>
       <div className="min-h-80 px-8 flex items-center justify-center w-96 mx-auto my-auto">
@@ -14,17 +42,21 @@ const SmsForm = () => {
             <textarea
               className="px-5 py-2 border rounded-lg border-indigo-600 w-72"
               placeholder="Enter SMS"
+              value={sms}
+              onChange={onChange}
               required
             />
           </div>
           <div>
-            <button className="mt-8 bg-indigo-600 px-5 w-72 text-white rounded-lg py-2">
+            <button className="mt-8 bg-indigo-600 px-5 w-72 text-white rounded-lg py-2"
+            onClick={checkSms}
+            type="submit">
               Check
             </button>
           </div>
           <div>
-            <p className=" text-center italic text-gray-500 mt-5">
-              This sms is verified and secure
+            <p className=" text-center italic text-gray-500 mt-5" id="verifiedMsg">
+              
             </p>
           </div>
         </form>
