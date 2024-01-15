@@ -9,11 +9,12 @@ import { BsUpload } from "react-icons/bs";
 const TransactionModal = ({ closeCallback, transactionDetails }) => {
   const [receiverDetails, setReceiverDetails] = useState(null);
 
-  const fetchReceiverDetails = async (accountNumber) => {
+  const fetchReceiverDetails = async (receiverAccountNumber) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/users/${accountNumber}`);
+      const response = await fetch(`http://127.0.0.1:5000/api/users/123456789012`);
       const data = await response.json();
       setReceiverDetails(data);
+      console.log(data)
     } catch (error) {
       console.error("Error fetching receiver details:", error);
     }
@@ -32,7 +33,6 @@ const TransactionModal = ({ closeCallback, transactionDetails }) => {
   return (
     <div className="main-container">
       <div className="card flex-column items-start">
-        {/* Display transaction details */}
         <div className="flex items-center border-solid border rounded px-5 py-2 my-2">
           <div className="text-lg font-bold bg-indigo-600 text-white rounded-full p-3">
             <BsUpload />

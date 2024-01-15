@@ -8,6 +8,16 @@ const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
   const [notificationSearch, setNotificationSearch] = useState('');
   const [notificationFilter, setNotificationFilter] = useState('ALL');
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -87,16 +97,28 @@ const NotificationPage = () => {
                     <h2 className="px-4 py-0.5 text-white rounded-lg bg-indigo-600 text-sm w-32 text-center">
                       {new Date(notification.created_at).toLocaleDateString()}
                     </h2>
-                    <button className="px-4 py-0.5 text-white rounded-lg bg-indigo-600 text-sm w-32 text-center">
+                    <button
+                      className="px-4 py-0.5 text-white rounded-lg bg-indigo-600 text-sm w-32 text-center"
+                      onClick={openModal} // Open the modal when the button is clicked
+                    >
                       Check Model
                     </button>
+                    {isModalOpen && (
+                      <div className="modal">
+                        {/* Add your modal content, you can style it accordingly */}
+                        <div className="modal-content">
+                          <img src="./images/image.png" alt="Model Check" />
+                          <button onClick={closeModal}>Close</button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   </div>
                   <p>
-                    {notification.type.includes('Fraud Transaction')
-                      ? `Transaction ID: ${notification.fraud_transaction_id}`
-                      : `Fraud Account ID: ${notification.fraud_account_id}`}
+                    {notification.type.includes('Fraud_Transaction')
+                      ? `Transaction ID: ${notification.transaction_id}`
+                      : `Account ID: ${notification.customer_id}`}
                   </p>
-                </div>
               </div>
             ))}
           </div>

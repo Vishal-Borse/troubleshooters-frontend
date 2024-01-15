@@ -46,10 +46,15 @@ const Account = () => {
     fetchUserData(id); // Pass the userId obtained from useParams
   }, [id]); // Include userId in the dependency array to react to changes
 
-  console.log(userData);
+  //console.log(userData);
   const handleToggleTransactionModal = (transaction) => {
    
     setTransactionDetails(transaction);
+    setIsTransactionModalOpen(true);
+  };
+
+  const handleCloseTransactionModal = () => {
+    setIsTransactionModalOpen(false);
   };
   return (
     <>
@@ -135,7 +140,9 @@ const Account = () => {
         </div>
         <div>
           <div className=" chart px-10 py-1  m-5 mt-4 mb-3">
-            <Chart />
+  
+        <Chart senderAccount={userData?.account_number} />
+
           </div>
           <div className="px-10 py-1  m-5 mt-4 mb-3">
             <button className="px-4 py-0.5 text-white rounded-lg bg-indigo-600 text-sm w-32 text-center mx-1">
@@ -160,7 +167,7 @@ const Account = () => {
                 <div
                   key={transaction.transactionid}
                   onClick={() => handleToggleTransactionModal(transaction.receiver_account)}
-                  className="flex items-center border-solid border rounded px-5 py-2 my-2"
+                  className="flex items-center border-solid border rounded px-5 py-2 my-2 justify-between"
                 >
                   <div className="text-lg font-bold bg-indigo-600 text-white rounded-full p-3">
                     <BsUpload />
@@ -173,9 +180,9 @@ const Account = () => {
                       Amount Credited: {transaction.newbalanceorig}
                     </h2>
                   </div>
-                  <div className="ml-24">
-                    <p
-                      className={`px-3 py-1 rounded-lg text-md ${
+                  <div className="ml-24 w-24 " >
+                    <p 
+                      className={`px-3 py-1 rounded-lg text-md text-center ${
                         transaction.fraud_transaction
                           ? "bg-red-500 text-white"
                           : "bg-green-500 text-white"
@@ -188,10 +195,10 @@ const Account = () => {
               ))}
 
               {isTransactionModalOpen ? (
-                <TransactionModal
-                  closeCallback={handleToggleTransactionModal}
-                  transactionDetails={transactionDetails}
-                />
+               <TransactionModal
+               closeCallback={handleCloseTransactionModal}
+               transactionDetails={transactionDetails}
+             />
               ) : null}
             </div>
           </div>
