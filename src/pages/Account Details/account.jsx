@@ -31,11 +31,12 @@ const Account = () => {
         const response = await fetch(`http://127.0.0.1:5000/api/users/${id}`);
         const data = await response.json();
         setUserData(data);
-        console.log(data);
+       // console.log(data);
         const transactionResponse = await fetch(
           `http://127.0.0.1:5000/api/transactions/${data.account_number}`
         );
         const transactionData = await transactionResponse.json();
+        console.log(transactionData);
         setTransactions(transactionData);
       } catch (error) {
         console.error("Error fetching user details:", error);

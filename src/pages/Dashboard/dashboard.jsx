@@ -29,13 +29,38 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("ALL");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
         const response = await fetch("http://127.0.0.1:5000/api/users");
         const data = await response.json();
-        setAccounts(data);
+        // const filteredAccounts = data.filter((account) => {
+        //   if (selectedFilter === "ALL") {
+        //     return true; // Show all accounts
+        //   } else if (selectedFilter === "Fraud") {
+        //     return account.fraud_account;
+        //   } else if (selectedFilter === "NotFraud") {
+        //     return !account.fraud_account;
+        //   }
+        //   return false;
+        // });
+
+        const filteredAccounts = data.filter((account) => {
+          const searchPattern = new RegExp(search, "i"); // Case-insensitive search
+
+          return (
+            (selectedFilter === "ALL" ||
+              (selectedFilter === "Fraud" && account.fraud_account) ||
+              (selectedFilter === "NotFraud" && !account.fraud_account)) &&
+            (searchPattern.test(account.first_name) ||
+              searchPattern.test(account.last_name))
+          );
+        });
+
+        setAccounts(filteredAccounts);
       } catch (error) {
         console.error("Error fetching accounts:", error);
       }
@@ -54,7 +79,7 @@ const Dashboard = () => {
     };
     fetchAccounts();
     fetchNotifications();
-  }, []);
+  }, [selectedFilter, search]);
 
   const handleAccountClick = (accountId) => {
     navigate(`/dashboard/account/${accountId}`);
@@ -67,7 +92,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="main-div flex justify-between gap-1">
-        <div className='w-96'>
+        <div className="w-96">
           <Sidebar />
         </div>
         <div className="middle-div">
@@ -89,7 +114,7 @@ const Dashboard = () => {
             <div className="accounts px-8 py-8">
               <div>
                 <h1 className="text-3xl font-bold mb-5 text-indigo-600">
-                  Accounts 
+                  Accounts
                 </h1>
               </div>
               <div className="flex items-center">
@@ -98,6 +123,8 @@ const Dashboard = () => {
                   name="search"
                   type="text"
                   placeholder="Search "
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                   className="py-1 px-5 border-solid border-y border-l rounded-l-md w-full"
                 />
                 <div className=" px-2 py-2 border-solid border-y border-r rounded-r-md">
@@ -108,9 +135,12 @@ const Dashboard = () => {
                     name="filter"
                     id="filter"
                     className="bg-indigo-600 text-white"
+                    value={selectedFilter}
+                    onChange={(e) => setSelectedFilter(e.target.value)}
                   >
-                    <option value="Filter1">Filter1</option>
-                    <option value="filter2">filter2</option>
+                    <option value="ALL">ALL</option>
+                    <option value="Fraud">Fraud Account</option>
+                    <option value="NotFraud">Non Fraud </option>
                   </select>
                 </div>
               </div>
