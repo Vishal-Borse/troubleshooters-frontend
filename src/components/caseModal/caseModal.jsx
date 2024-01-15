@@ -78,22 +78,36 @@ const CaseModal = ({ closeCallback, receiverAccountDetails, senderAccountDetails
             <div className="ml-8 mt-5 mb-3">
               <img
                 className="profile-img"
-                src={receiverAccountDetails.profile_img_url}
+                src={receiverAccountDetails.reciverphoto}
                 alt="Receiver"
               />
             </div>
             <h1>
+              <strong>Sender Name  : </strong>{receiverAccountDetails.first_name} {receiverAccountDetails.last_name}
+            </h1>
+            <h1>
               <strong>Account Number : </strong>{receiverAccountDetails.account_number}
             </h1>
             <h1>
-              <strong>IFSC Number : </strong>{receiverAccountDetails.ifsc_number}
+              <strong>IFSC Number : </strong>{receiverAccountDetails.branchid}
             </h1>
             <h1>
-              <strong>Branch Name : </strong>{receiverAccountDetails.branch_name}
+              <strong>Date of Birth : </strong>{receiverAccountDetails.dob}
             </h1>
             <h1>
-              <strong>Date of Birth : </strong>{receiverAccountDetails.date_of_birth}
+              <strong>Address: </strong>{receiverAccountDetails.address}
             </h1>
+            <h1>
+              <strong>Mobile Number: </strong>{receiverAccountDetails.mobileno}
+            </h1>
+            <h1>
+              <strong>Aadhar Card number: </strong>{receiverAccountDetails.addharno}
+            </h1>
+            <h1>
+              <strong>Pancard Number : </strong>{receiverAccountDetails.pancard_number}
+            </h1>
+
+           
           </div>
         ) : null}
 
@@ -107,22 +121,35 @@ const CaseModal = ({ closeCallback, receiverAccountDetails, senderAccountDetails
             <div className="ml-8 mt-5 mb-3">
               <img
                 className="profile-img"
-                src={senderAccountDetails.profile_img_url}
+                src={senderAccountDetails.senderphoto}
                 alt="Sender"
               />
             </div>
             <h1>
+              <strong>Sender Name  : </strong>{senderAccountDetails.first_name} {senderAccountDetails.last_name}
+            </h1>
+            <h1>
               <strong>Account Number : </strong>{senderAccountDetails.account_number}
             </h1>
             <h1>
-              <strong>IFSC Number : </strong>{senderAccountDetails.ifsc_number}
+              <strong>IFSC Number : </strong>{senderAccountDetails.branchid}
             </h1>
             <h1>
-              <strong>Branch Name : </strong>{senderAccountDetails.branch_name}
+              <strong>Date of Birth : </strong>{senderAccountDetails.dob}
             </h1>
             <h1>
-              <strong>Date of Birth : </strong>{senderAccountDetails.date_of_birth}
+              <strong>Address: </strong>{senderAccountDetails.address}
             </h1>
+            <h1>
+              <strong>Mobile Number: </strong>{senderAccountDetails.mobileno}
+            </h1>
+            <h1>
+              <strong>Aadhar Card number: </strong>{senderAccountDetails.addharno}
+            </h1>
+            <h1>
+              <strong>Pancard Number : </strong>{senderAccountDetails.pancard_number}
+            </h1>
+
            
           </div>
         ) : null}

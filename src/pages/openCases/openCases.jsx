@@ -98,13 +98,13 @@ const OpenCases = () => {
                   <p>
                     <strong>Victim Name : </strong>
                     {
-                      caseItem.transaction_details.receiver_account.first_name
+                      caseItem.transaction_details.sender_account.first_name
                     }{" "}
-                    {caseItem.transaction_details.receiver_account.last_name}
+                    {caseItem.transaction_details.sender_account.last_name}
                   </p>
                   <p>
                     <strong>Customer ID : </strong>
-                    {caseItem.transaction_details.receiver_account.customer_id}
+                    {caseItem.transaction_details.sender_account.customer_id}
                   </p>
                   <p>
                     <strong>Transaction ID : </strong>
