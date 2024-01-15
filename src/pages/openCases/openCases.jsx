@@ -13,18 +13,21 @@ const OpenCases = () => {
   const [senderAccountDetails, setSenderAccountDetails] = useState(null);
   const [isReceiverDetails, setReceiverDetails] = useState(false);
   const [isSenderDetails, setSenderDetails] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("all");
 
-
-  
   const handleToggleCaseModal = (caseDetails) => {
     setIsCaseModalOpen(!isCaseModalOpen);
     setReceiverDetails(false);
     setSenderDetails(false);
     setReceiverAccountDetails(caseDetails.receiver_account);
     setSenderAccountDetails(caseDetails.sender_account);
-  //   console.log("Receiver Account Details:", caseDetails.receiver_account);
-  // console.log("Sender Account Details:", caseDetails.sender_account);
+    //   console.log("Receiver Account Details:", caseDetails.receiver_account);
+    // console.log("Sender Account Details:", caseDetails.sender_account);
+  };
+
   
+  const handleFilterChange = (e) => {
+    setSelectedFilter(e.target.value);
   };
   useEffect(() => {
     // Fetch data from the API
@@ -40,6 +43,13 @@ const OpenCases = () => {
 
     fetchData();
   }, []);
+  const filteredCases = casesData.filter((caseItem) => {
+    if (selectedFilter === "all") {
+      return true;
+    } else {
+      return caseItem.status === selectedFilter;
+    }
+  });
   return (
     <>
       <div className="flex item-centre">
@@ -66,14 +76,17 @@ const OpenCases = () => {
                 name="filter"
                 id="filter"
                 className="bg-indigo-600 text-white"
+                value={selectedFilter}
+                onChange={handleFilterChange}
               >
-                <option value="Filter1">Filter1</option>
-                <option value="filter2">filter2</option>
+                <option value="all">All Cases</option>
+                <option value="open">Open Cases</option>
+                <option value="close">Close Cases</option>
               </select>
             </div>
           </div>
           <div className="w-full grid grid-cols-2 gap-5 lists ">
-            {casesData.map((caseItem) => (
+          {filteredCases.map((caseItem) => (
               <div
                 key={caseItem.case_id}
                 onClick={() =>
@@ -87,11 +100,10 @@ const OpenCases = () => {
                 <div className="ml-2 w-full">
                   <div className="flex mt-2 items-center">
                     <h2 className="font-bold text-xl mb-2 ">
-                    <strong>Case ID : </strong>
+                      <strong>Case ID : </strong>
                       {caseItem.case_id}
                     </h2>
                     <p className="ml-3 mb-1 text-white px-6 text-center text-sm pb-1 font-semibold bg-red-600 rounded-full">
-
                       {caseItem.status}
                     </p>
                   </div>
