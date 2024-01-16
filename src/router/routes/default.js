@@ -10,7 +10,7 @@ import CaseModal from "../../components/caseModal/caseModal";
 import UpiForm from "../../components/forms/upiForm/upiForm";
 import SmsForm from "../../components/forms/sms/smsForm";
 import FraudDetection from "../../pages/FraudDetection/fraudDetection";
-
+import TransactionCheckForm from "../../pages/TransactionCheck/transactioncheck";
 const account_id = 1;
 
 const Default = () => {
@@ -25,6 +25,7 @@ const Default = () => {
        */}
 
       <Route path="/dashboard/opencases" element={<OpenCases />} />
+      <Route path="/dashboard/transactioncheck" element={<TransactionCheckForm />} />
       <Route path="/userlogin" element={<FraudDetection/>} />
       {/* <Route path="/dashboard/logout" element={<Logout />} /> */}
     </Routes>

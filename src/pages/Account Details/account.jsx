@@ -19,25 +19,25 @@ const Account = () => {
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
   const [userData, setUserData] = useState(null);
   const [transactions, setTransactions] = useState([]);
-  const [transactionDetails, setTransactionDetails] = useState(null);
-  
-  const navigate = useNavigate();
+  const [selectedReceiverAccount, setSelectedReceiverAccount] = useState(null);
+
   const { id } = useParams();
 
-  console.log(id);
+//  console.log(id);
   useEffect(() => {
     const fetchUserData = async (id) => {
       try {
         const response = await fetch(`http://127.0.0.1:5000/api/users/${id}`);
         const data = await response.json();
         setUserData(data);
-       // console.log(data);
+        // console.log(data);
         const transactionResponse = await fetch(
           `http://127.0.0.1:5000/api/transactions/${data.account_number}`
         );
         const transactionData = await transactionResponse.json();
         console.log(transactionData);
         setTransactions(transactionData);
+     //  console.log(transactionData.receiver_account)
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
@@ -46,16 +46,12 @@ const Account = () => {
     fetchUserData(id); // Pass the userId obtained from useParams
   }, [id]); // Include userId in the dependency array to react to changes
 
-  //console.log(userData);
-  const handleToggleTransactionModal = (transaction) => {
-   
-    setTransactionDetails(transaction);
-    setIsTransactionModalOpen(true);
+  const handleToggleTransactionModal = (receiver_account) => {
+    setIsTransactionModalOpen(!isTransactionModalOpen);
+    setSelectedReceiverAccount(receiver_account);
   };
+  
 
-  const handleCloseTransactionModal = () => {
-    setIsTransactionModalOpen(false);
-  };
   return (
     <>
       <div className="main-div">
@@ -85,7 +81,6 @@ const Account = () => {
                   <h1 className="text-2xl font-semibold text-indigo-600 mb-3">
                     {userData.first_name} {userData.last_name}
                   </h1>
-                  {/* Display fraudulent status */}
                   {userData.fraud_account ? (
                     <p className="bg-red-500 text-white px-8 py-1 rounded-full text-center">
                       Fraudulent
@@ -140,9 +135,7 @@ const Account = () => {
         </div>
         <div>
           <div className=" chart px-10 py-1  m-5 mt-4 mb-3">
-  
-        <Chart senderAccount={userData?.account_number} />
-
+            <Chart senderAccount={userData?.account_number} />
           </div>
           <div className="px-10 py-1  m-5 mt-4 mb-3">
             <button className="px-4 py-0.5 text-white rounded-lg bg-indigo-600 text-sm w-32 text-center mx-1">
@@ -166,7 +159,9 @@ const Account = () => {
               {transactions.map((transaction) => (
                 <div
                   key={transaction.transactionid}
-                  onClick={() => handleToggleTransactionModal(transaction.receiver_account)}
+                  onClick={() =>
+                    handleToggleTransactionModal(transaction.receiver_account)
+                  }
                   className="flex items-center border-solid border rounded px-5 py-2 my-2 justify-between"
                 >
                   <div className="text-lg font-bold bg-indigo-600 text-white rounded-full p-3">
@@ -180,8 +175,8 @@ const Account = () => {
                       Amount Credited: {transaction.newbalanceorig}
                     </h2>
                   </div>
-                  <div className="ml-24 w-24 " >
-                    <p 
+                  <div className="ml-24 w-24 ">
+                    <p
                       className={`px-3 py-1 rounded-lg text-md text-center ${
                         transaction.fraud_transaction
                           ? "bg-red-500 text-white"
@@ -194,11 +189,13 @@ const Account = () => {
                 </div>
               ))}
 
+            
+
               {isTransactionModalOpen ? (
-               <TransactionModal
-               closeCallback={handleCloseTransactionModal}
-               transactionDetails={transactionDetails}
-             />
+                <TransactionModal
+                  closeCallback={handleToggleTransactionModal}
+                  receiverAccount={selectedReceiverAccount}
+                />
               ) : null}
             </div>
           </div>

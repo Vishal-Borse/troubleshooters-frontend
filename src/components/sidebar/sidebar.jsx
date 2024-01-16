@@ -4,6 +4,7 @@ import { IoMdNotifications } from "react-icons/io";
 import { MdTipsAndUpdates } from "react-icons/md";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
 const Sidebar = () => {
   return (
     <div className="side-bar pb-11 pr-10">
@@ -36,6 +37,13 @@ const Sidebar = () => {
           >
             <MdTipsAndUpdates className="text-3xl text-white hover:text-white" />
             <h3 className="text-lg text-white">Open Cases</h3>
+          </Link>
+          <Link
+            to={"/dashboard/transactioncheck"}
+            className="items ml-5 gap-2 mb-3 hover:bg-indigo-600 py-2 px-4 rounded-lg hover:text-white"
+          >
+             <MdTipsAndUpdates className="text-3xl text-white hover:text-white" />
+            <h3 className="text-lg text-white">Transaction Check </h3>
           </Link>
         </div>
       </div>

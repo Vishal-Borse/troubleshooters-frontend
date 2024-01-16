@@ -65,7 +65,7 @@ const Dashboard = () => {
         console.error("Error fetching accounts:", error);
       }
     };
-    // Fetch notifications from the API endpoint
+    
     const fetchNotifications = async () => {
       try {
         const response = await fetch(
