@@ -4,7 +4,9 @@
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 .active{
-    border:solid 1px rgb(79 70 229);
     color:rgb(79 70 229);
     background-color: white;
+}
+.side-nav{
+  background-color: #2d3250;
 }
